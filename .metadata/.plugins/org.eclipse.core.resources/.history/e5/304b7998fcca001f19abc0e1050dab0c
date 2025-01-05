@@ -1,0 +1,26 @@
+package Pages;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import Utilities.BasePage;
+
+public class VideoGames extends BasePage {
+	private By freeShippingFilter = By.xpath("//span[text()='Free Shipping']");
+    private By conditionNewFilter = By.xpath("//span[text()='New']");
+    private By sortDropdown = By.id("s-result-sort-select");
+    private By highToLowOption = By.xpath("//option[text()='Price: High to Low']");
+    
+    public VideoGames(WebDriver driver) {
+        super(driver);
+    }
+    
+    public void applyFilters() {
+        driver.findElement(freeShippingFilter).click();
+        driver.findElement(conditionNewFilter).click();
+    }
+    
+    public void sortByHighToLow() {
+        driver.findElement(sortDropdown).click();
+        driver.findElement(highToLowOption).click();
+    }
+
+}

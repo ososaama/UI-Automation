@@ -1,0 +1,123 @@
+package Pages;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import Utilities.BasePage;
+
+public class VideoGames extends BasePage {
+	
+	 @FindBy(xpath = "//label[@for='apb-browse-refinements-checkbox_0']//i[@class='a-icon a-icon-checkbox']")
+	 private WebElement freeShippingCheckbox;
+	 
+	 @FindBy(xpath = "//span[@class='a-size-base a-color-base'][normalize-space()='New']")
+	 private WebElement conditionNewFilter;
+	
+	 @FindBy(id = "s-result-sort-select")
+	 private WebElement sortDropdown;
+	 
+	 @FindBy(xpath = "//option[@value='price-desc-rank']")
+	 private WebElement highToLowOption;
+	 
+	 @FindBy(xpath = "//span[@class='a-price-whole']")
+	    private List<WebElement> productPrices;
+
+	 @FindBy(xpath = "//input[@aria-labelledby='add-to-cart-button-announce']")
+	    private List<WebElement> addToCartButtons;
+
+	 @FindBy(xpath = "//a[contains(@class, 's-pagination-next')]")
+	    private WebElement nextPageButton;
+
+	 @FindBy(xpath = "//div[@data-component-type='s-search-result']")
+	    private List<WebElement> productContainers;
+	 
+   
+    public VideoGames(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
+    
+    public void applyFilters() {
+    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    	
+        WebElement freeShipping = wait.until(ExpectedConditions.visibilityOf(freeShippingCheckbox));
+    	scrollToElement(freeShipping);
+        clickElement(freeShipping);
+        
+        WebElement newCondition = wait.until(ExpectedConditions.visibilityOf(conditionNewFilter));
+        scrollToElement(newCondition);
+        clickElement(newCondition);
+    }
+    
+    public void sortByHighToLow() {
+    	clickElement(sortDropdown);
+    	clickElement(highToLowOption);
+    }
+    
+    public void addProductsUnder15k() {
+        List<WebElement> products = driver.findElements(By.xpath("//div[@data-component-type='s-search-result']"));
+
+        for (int i = 0; i < products.size(); i++) {
+            try {
+                // Re-locate products on each iteration to avoid stale elements
+                products = driver.findElements(By.xpath("//div[@data-component-type='s-search-result']"));
+                WebElement product = products.get(i);
+
+                // Find the price element inside the product card
+                List<WebElement> priceElements = product.findElements(By.xpath(".//span[@class='a-price-whole']"));
+                if (priceElements.isEmpty()) {
+                    System.out.println("Price not found for product " + (i + 1));
+                    continue;
+                }
+
+                // Extract and parse the price
+                String priceText = priceElements.get(0).getText().replace(",", "").trim();
+                int price = Integer.parseInt(priceText);
+
+                // Check if the price is below 15k
+                if (price < 15000) {
+                    System.out.println("Product " + (i + 1) + " is under 15k: EGP " + price);
+
+                    // Check for "Add to Cart" button
+                    List<WebElement> addToCartButtons = product.findElements(By.xpath(".//input[@aria-label='Add to Cart']"));
+                    if (!addToCartButtons.isEmpty()) {
+                        addToCartButtons.get(0).click(); // Click "Add to Cart"
+                        Thread.sleep(2000); // Wait for the cart to update
+                    } else {
+                        // Open the product page if "Add to Cart" is not available
+                        WebElement productLink = product.findElement(By.xpath(".//a[@class='a-link-normal a-text-normal']"));
+                        productLink.click();
+
+                        // Add to Cart on the product page
+                        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                        WebElement addToCartButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                                By.xpath("//input[@id='add-to-cart-button']")));
+                        addToCartButton.click();
+
+                        // Return to the product listing page
+                        driver.navigate().back();
+                        Thread.sleep(2000); // Wait for the page to load
+                    }
+                } else {
+                    System.out.println("Product " + (i + 1) + " is over 15k: EGP " + price);
+                }
+            } catch (NoSuchElementException e) {
+                System.out.println("Error locating element for product: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
+            }
+        }
+    }
+
+}
+
+

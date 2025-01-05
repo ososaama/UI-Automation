@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2025-01-05T17:56:23 EET" name="Default suite" finished-at="2025-01-05T17:57:45 EET" duration-ms="81659">
+    <groups>
+    </groups>
+    <test started-at="2025-01-05T17:56:23 EET" name="Default test" finished-at="2025-01-05T17:57:45 EET" duration-ms="81659">
+      <class name="Tests.AmazonTest">
+        <test-method is-config="true" signature="setup()[pri:0, instance:Tests.AmazonTest@293a5bf6]" started-at="2025-01-05T17:56:23 EET" name="setup" finished-at="2025-01-05T17:56:33 EET" duration-ms="9642" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="testvidGamesPurchase()[pri:0, instance:Tests.AmazonTest@293a5bf6]" started-at="2025-01-05T17:56:33 EET" name="testvidGamesPurchase" finished-at="2025-01-05T17:57:45 EET" duration-ms="71983" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testvidGamesPurchase -->
+      </class> <!-- Tests.AmazonTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

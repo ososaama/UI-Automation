@@ -1,0 +1,38 @@
+package Pages;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import Utilities.BasePage;
+
+public class VideoGames extends BasePage {
+	
+	 @FindBy(xpath = "//span[text()='Free Shipping']/preceding-sibling::input[@type='checkbox']")
+	 private WebElement freeShippingCheckbox;
+	 
+	 @FindBy(xpath = "//span[text()='New']")
+	 private WebElement conditionNewFilter;
+	
+	 @FindBy(id = "s-result-sort-select")
+	 private WebElement sortDropdown;
+	 
+	 @FindBy(xpath = "//option[text()='Price: High to Low']")
+	 private WebElement highToLowOption;
+	 
+   
+    public VideoGames(WebDriver driver) {
+        super(driver);
+    }
+    
+    public void applyFilters() {
+        clickElement(freeShippingCheckbox);
+        clickElement(conditionNewFilter);
+    }
+    
+    public void sortByHighToLow() {
+    	clickElement(sortDropdown);
+    	clickElement(highToLowOption);
+    }
+
+}

@@ -1,0 +1,21 @@
+package Pages;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import Utilities.BasePage;
+
+public class Home extends BasePage {
+
+	private By allMenuBtn = By.id("nav-hamburger-menu");
+	private By allCategoriesBtn = By.xpath("//a[contains(@class, 'hmenu-item') and contains(@class, 'hmenu-compressed-btn')]");
+	
+	public Home(WebDriver driver)
+	{
+		super(driver);
+	}
+	
+	public void openAllMenu()
+	{
+		driver.findElement(allMenuBtn).click();
+		driver.findElement(allCategoriesBtn).click();
+	}
+}
