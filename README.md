@@ -10,4 +10,6 @@
 
 6-go to testng.xml in "project explorer" and right click on "<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">" to allow it to download
 
-7-open "amazonTest" file to run the project
+7-please provide a valid email & password inside "testvidGamesPurchase" method inside AmazonTest.java in "Tests" package under src/test/java 
+
+8-open "amazonTest" file to run the project
